@@ -1,13 +1,13 @@
 import React, { Component, Suspense } from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { Container } from 'reactstrap';
 
-import routes from '../../../routes';
-
+import routes from '../../../../routes';
 const Footer = React.lazy(()=>import('./Footer'));
 const Header = React.lazy(()=>import('./Header'));
+const Sitebar = React.lazy(()=>import('./Sitebar'));
 
-class Layout extends Component{
+export default class Layout extends Component{
     loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
 
     signOut(e) {
@@ -17,10 +17,9 @@ class Layout extends Component{
     render() {
         return (
             <div className="app">
-                <Header>
-
-                </Header>
+                <Header/>
                 <div className="app-body">
+                    <Sitebar/>
                     <main className="main">
                         <Container fluid>
                             <Suspense fallback={this.loading()}>
@@ -29,25 +28,22 @@ class Layout extends Component{
                                         return route.component ? (
                                             <Route
                                                 key={idx}
-                                                path={route.path}
+                                                path={this.props.match.path+route.path}
                                                 exact={route.exact}
                                                 name={route.name}
+                                                children={route.children}
                                                 render={props => (
                                                     <route.component {...props} />
                                                 )} />
                                         ) : (null);
                                     })}
-                                    <Redirect from="/" to="/dashboard" />
                                 </Switch>
                             </Suspense>
                         </Container>
                     </main>
                 </div>
-                <Footer>
-
-                </Footer>
+                <Footer/>
             </div>
         );
     }
 }
-export default Layout;

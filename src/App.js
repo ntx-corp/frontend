@@ -2,10 +2,12 @@ import React,{Component} from 'react';
 import {
   Route,
   Switch,
-  HashRouter
+  HashRouter, Redirect
 } from "react-router-dom";
 
+import {AuthService} from './services/AuthService';
 import './App.scss';
+import {AdminLayout, StoreFront} from './components/Layout/index';
 
 const loading = () => <div className="animated fadeIn pt-3 text-center">Loading...</div>;
 
@@ -14,7 +16,6 @@ const Login = React.lazy(()=>import('./components/Pages/Login'));
 const Register = React.lazy(() => import('./components/Pages/Register'));
 const Page404 = React.lazy(() => import('./components/Pages/Page404'));
 const Page500 = React.lazy(() => import('./components/Pages/Page500'));
-const Layout = React.lazy(()=>import('./components/Layout/index'))
 
 class App extends Component {
   render() {
@@ -26,7 +27,26 @@ class App extends Component {
               <Route exact path="/register" name="Register Page" render={props => <Register {...props}/>} />
               <Route exact path="/404" name="Page 404" render={props => <Page404 {...props}/>} />
               <Route exact path="/500" name="Page 500" render={props => <Page500 {...props}/>} />
-              <Route path="/" name="Home" render={props => <Layout {...props}/>}/>
+              {/*<Route
+                path="/admin"
+                render={({ match: { url } }) => (
+                <>
+                    <Route path={`${url}/`} component={UserList} exact />
+                    <Route path={`${url}/home`} component={UserDetail} />
+                </>
+                )}
+              />*/}
+              {/*<Route path="/" render={props => <StoreFront {...props}/>} />*/}
+              <Route path="/admin" render={props => {
+                const currentUser = AuthService.getToken();
+                if (!currentUser) {
+                  // not logged in so redirect to login page with the return url
+                  return <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+                }
+                // authorised so return component
+                return <AdminLayout {...props}/>
+              }} />
+
             </Switch>
           </React.Suspense>
         </HashRouter>

@@ -7,8 +7,8 @@ const Item = React.lazy(()=>import('./components/Item/index'));
 
 const routes = [
     { path:'/', exact:true, name:'Home'},
-    { path: '/auth', exact: true, name: 'Auth', component: Auth },
-    { path: '/user', exact: true, name: 'User', component: User },
+    { path: '/auth', exact: true, name: 'Auth', component: Auth},
+    { path: '/user',name: 'User', component: User },
     { path: '/item', exact: true, name: 'Item', component: Item },
 ]
 

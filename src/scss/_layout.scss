@@ -1,17 +1,8 @@
-// IE10&11 Flexbox fix
-@media all and (-ms-high-contrast: none) {
-  html {
-    display: flex;
-    flex-direction: column;
-  }
-}
-
-// stylelint-disable selector-type-no-unknown, no-duplicate-selectors, selector-no-qualifying-type, selector-max-combinators
-// app-dashboard and app-root are Angular2+ selectors. You can add here your own selectors if you need.
-.app,
-app-dashboard,
-app-root {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
+@import "layout/variable";
+@import "layout/header";
+@import "layout/navbar";
+@import "layout/nav";
+@import "layout/sitebar";
+@import "layout/aside";
+@import "layout/footer";
+@import "layout/layout";
