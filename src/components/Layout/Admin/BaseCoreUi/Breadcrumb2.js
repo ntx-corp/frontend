@@ -16,7 +16,8 @@ var routes = void 0;
 var router = void 0;
 
 var getPaths = function getPaths(pathname) {
-  var paths = ['/'];
+  // var paths = ['/'];
+  var paths = [];
 
   if (pathname === '/') return paths;
 
@@ -31,6 +32,7 @@ var getPaths = function getPaths(pathname) {
 var findRouteName2 = function findRouteName2(url) {
   var matchPath = router.matchPath;
   var aroute = routes.find(function (route) {
+    // console.log(url,route.path,matchPath(url, { path: route.path, exact: route.exact }));
     return matchPath(url, { path: route.path, exact: route.exact });
   });
   return aroute && aroute.name ? aroute.name : null;

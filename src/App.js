@@ -7,7 +7,7 @@ import {
 
 import {AuthService} from './services/AuthService';
 import './App.scss';
-import {AdminLayout, StoreFront} from './components/Layout/index';
+import {AdminLayout} from './components/Layout/index';
 
 const loading = () => <div className="animated fadeIn pt-3 text-center">Loading...</div>;
 
@@ -40,10 +40,8 @@ class App extends Component {
               <Route path="/admin" render={props => {
                 const currentUser = AuthService.getToken();
                 if (!currentUser) {
-                  // not logged in so redirect to login page with the return url
                   return <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
                 }
-                // authorised so return component
                 return <AdminLayout {...props}/>
               }} />
 

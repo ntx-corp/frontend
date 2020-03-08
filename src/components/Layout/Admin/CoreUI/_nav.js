@@ -2,32 +2,32 @@ export default {
   items: [
     {
       name: 'Dashboard',
-      url: '/dashboard',
+      url: '/admin/dashboard',
       icon: 'icon-speedometer',
       badge: {
         variant: 'info',
         text: 'NEW',
       },
     },
-    {
-      title: true,
-      name: 'Theme',
-      wrapper: {            // optional wrapper object
-        element: '',        // required valid HTML5 element tag
-        attributes: {}        // optional valid JS object with JS API naming ex: { className: "my-class", style: { fontFamily: "Verdana" }, id: "my-id"}
-      },
-      class: ''             // optional class names space delimited list for title item ex: "text-center"
-    },
-    {
-      name: 'Colors',
-      url: '/theme/colors',
-      icon: 'icon-drop',
-    },
-    {
-      name: 'Typography',
-      url: '/theme/typography',
-      icon: 'icon-pencil',
-    },
+    // {
+    //   title: true,
+    //   name: 'Theme',
+    //   wrapper: {            // optional wrapper object
+    //     element: '',        // required valid HTML5 element tag
+    //     attributes: {}        // optional valid JS object with JS API naming ex: { className: "my-class", style: { fontFamily: "Verdana" }, id: "my-id"}
+    //   },
+    //   class: ''             // optional class names space delimited list for title item ex: "text-center"
+    // },
+    // {
+    //   name: 'Colors',
+    //   url: '/theme/colors',
+    //   icon: 'icon-drop',
+    // },
+    // {
+    //   name: 'Typography',
+    //   url: '/theme/typography',
+    //   icon: 'icon-pencil',
+    // },
     {
       title: true,
       name: 'Components',
@@ -37,29 +37,34 @@ export default {
       },
     },
     {
-      name: 'Admin',
+      name: 'Master Data',
       url: '/admin',
       icon: 'icon-puzzle',
       children: [
         {
           name: 'User',
-          url: '/admin/user',
+          url: '/admin/master/user',
+          icon: 'icon-puzzle',
+        },
+        {
+          name: 'Item',
+          url: '/admin/master/item',
           icon: 'icon-puzzle',
         },
       ],
     },
-    {
-      name: 'Item',
-      url: '/admin/item',
-      icon: 'icon-cursor',
-      children: [
-        {
-          name: 'Item',
-          url: '/admin/item',
-          icon: 'icon-cursor',
-        },
-      ],
-    },
+    // {
+    //   name: 'Item',
+    //   url: '/admin/item',
+    //   icon: 'icon-cursor',
+    //   children: [
+    //     {
+    //       name: 'Item',
+    //       url: '/admin/item',
+    //       icon: 'icon-cursor',
+    //     },
+    //   ],
+    // },
     // {
     //   name: 'Charts',
     //   url: '/charts',

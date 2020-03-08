@@ -1,13 +1,12 @@
 import React, {Component} from 'react';
 
-class Item extends Component{
+class Master extends Component{
     render() {
-        console.log('abc');
         return (
             <div>
-                Item
+                Master Dashboard
             </div>
         );
     }
 }
-export default Item;
+export default Master;

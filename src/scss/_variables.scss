@@ -7,7 +7,6 @@ $enable-sidebar-nav-rounded:          false !default;
 $layout-transition-speed:             .25s !default;
 
 // Navbar
-
 $navbar-height:                       55px !default;
 $navbar-bg:                           #fff !default;
 $navbar-border: (
@@ -17,7 +16,7 @@ $navbar-border: (
                 color:                            $border-color
         )
 )  !default;
-$navbar-brand-width:                  155px !default;
+$navbar-brand-width:                  256px !default;
 $navbar-brand-bg:                     transparent !default;
 $navbar-brand-border:                 0 !default;
 
@@ -35,7 +34,7 @@ $navbar-toggler-icon-hover:           str-replace(url("data:image/svg+xml;charse
 
 // Sidebar
 
-$sidebar-width:                       200px !default;
+$sidebar-width:                       256px !default;
 $sidebar-padding:                     0 !default;
 $sidebar-minimized-width:             50px !default;
 $sidebar-minimized-height:            $sidebar-minimized-width !default;

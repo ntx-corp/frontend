@@ -20,9 +20,9 @@ import navigation from './_nav';
 
 import routes from '../../../../routes';
 
-const DefaultAside = React.lazy(() => import('./DefaultAside'));
-const DefaultFooter = React.lazy(() => import('./DefaultFooter'));
-const DefaultHeader = React.lazy(() => import('./DefaultHeader'));
+const Footer = React.lazy(() => import('./Footer'));
+const Header = React.lazy(() => import('./Header'));
+const Aside = React.lazy(() => import('./Aside'));
 
 export default class Layout extends Component{
     loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
@@ -36,7 +36,7 @@ export default class Layout extends Component{
             <div className="app">
                 <AppHeader fixed>
                     <Suspense  fallback={this.loading()}>
-                        <DefaultHeader onLogout={e=>this.signOut(e)}/>
+                        <Header onLogout={e=>this.signOut(e)}/>
                     </Suspense>
                 </AppHeader>
                 <div className="app-body">
@@ -59,6 +59,7 @@ export default class Layout extends Component{
                                             <Route
                                                 key={idx}
                                                 path={route.path}
+                                                // path={this.props.match.path+route.path}
                                                 exact={route.exact}
                                                 name={route.name}
                                                 render={props => (
@@ -66,20 +67,21 @@ export default class Layout extends Component{
                                                 )} />
                                         ) : (null);
                                     })}
-                                    {/*<Redirect from="/" to="/login" />*/}
+                                     <Redirect to={{ pathname: this.props.match.path+'/dashboard', state: { from: this.props.location } }} />
+                                     {/*<Redirect to={{ pathname: '/admin/dashboard', state: { from: this.props.location } }} />*/}
                                 </Switch>
                             </Suspense>
                         </Container>
                     </main>
                     <AppAside fixed>
                         <Suspense fallback={this.loading()}>
-                            <DefaultAside />
+                            <Aside />
                         </Suspense>
                     </AppAside>
                 </div>
                 <AppFooter>
                     <Suspense fallback={this.loading()}>
-                        <DefaultFooter />
+                        <Footer />
                     </Suspense>
                 </AppFooter>
             </div>
