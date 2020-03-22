@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {Route, Switch} from "react-router";
 import {UserList} from "./UserList";
-import UserDetail from "./UserDetail";
 
 export default class User extends Component{
     constructor(props){

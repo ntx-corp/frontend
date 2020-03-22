@@ -17,32 +17,23 @@ import {
     Row,
     Table
 } from 'reactstrap';
-import {UserService} from "./UserService";
+import {ItemService} from "./ItemService";
+import {Helper} from "../../../helpers/helper";
 
-export class UserList extends React.Component{
+export default class ItemList extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
             res:null,
-            form:{
-                username:'',
-                first_name:'',
-                last_name:'',
-                status:'',
-                email:'',
-                limit:15,
-                page:1
-            }
+            form:{}
         };
+    }
+    componentDidMount() {
         this.search();
     }
-    // componentDidMount() {
-    //     UserService.getList().then(res => this.setState({ res }));
-    // }
-    search = (e)=>{
-        UserService.getList(this.state.form).then(res => this.setState({ res }));
+    search = ()=>{
+        ItemService.getList(this.state.form).then(res => this.setState({ res }));
     }
-    // onChange = (e) =>this.setState({ [e.target.name]: e.target.value });
     onChange = (e) =>{
         const form = {
             ...this.state.form
@@ -53,13 +44,12 @@ export class UserList extends React.Component{
         });
     }
     create = ()=>{
-        this.props.history.push(this.props.match.path+'create');
+        this.props.history.push('/admin/master/item/create');
     }
     reset =()=>{
         this.setState({form:{}})
     }
     render(){
-        // console.log(this.state.res);
         const {res} = this.state;
         return(
             <div>
@@ -75,28 +65,28 @@ export class UserList extends React.Component{
                                         <Col md="6">
                                             <Row>
                                                 <Col md="3">
-                                                    <Label htmlFor="text-input">Username</Label>
+                                                    <Label htmlFor="text-input">Code</Label>
                                                 </Col>
                                                 <Col xs="12" md="9">
-                                                    <Input type="text" id="txt_username" name="username" placeholder="Username"  onChange={this.onChange} value={this.state.form.username || ''}/>
+                                                    <Input type="text" name="code" placeholder="Item code"  onChange={this.onChange} value={this.state.form.code || ''}/>
                                                 </Col>
                                             </Row>
                                             <Row>
                                                 <Col md="3">
-                                                    <Label htmlFor="text-input">Email</Label>
+                                                    <Label htmlFor="text-input">Name</Label>
                                                 </Col>
                                                 <Col xs="12" md="9">
-                                                    <Input type="text" id="txt_email" name="email" placeholder="Email"  onChange={this.onChange} value={this.state.form.email || ''}/>
+                                                    <Input type="text" name="name" placeholder="Item name"  onChange={this.onChange} value={this.state.form.name || ''}/>
                                                 </Col>
                                             </Row>
                                         </Col>
                                         <Col md="6">
                                             <Row>
                                                 <Col md="3">
-                                                    <Label htmlFor="text-input">First name</Label>
+                                                    <Label htmlFor="text-input">Category</Label>
                                                 </Col>
                                                 <Col xs="12" md="9">
-                                                    <Input type="text" id="txt_fist_name" name="first_name" placeholder="First name" onChange={this.onChange} value={this.state.form.first_name || ''}/>
+                                                    <Input type="text" name="category_id" placeholder="Category" onChange={this.onChange} value={this.state.form.category_id || ''}/>
                                                 </Col>
                                             </Row>
                                         </Col>
@@ -115,51 +105,53 @@ export class UserList extends React.Component{
                     <Col>
                         <Card>
                             <CardHeader>
-                                <i className="fa fa-align-justify"></i> User List
+                                <i className="fa fa-align-justify"></i> List
                             </CardHeader>
                             <CardBody>
-                                <Table hover bordered striped responsive size="sm">
+                                <Table hover bordered striped responsive size="sm" className="table-align-middle">
                                     <thead>
-                                    <tr>
+                                    <tr align={"center"} valign="middle">
                                         <th>No</th>
-                                        <th>Avatar</th>
-                                        <th>Username</th>
-                                        <th>First name</th>
-                                        <th>Last name</th>
-                                        <th>Email</th>
+                                        <th>Image</th>
+                                        <th>Code</th>
+                                        <th>Name</th>
+                                        <th>Title</th>
+                                        <th>Category</th>
+                                        <th>Manufacturer</th>
                                         <th>Status</th>
-                                        <th>Role</th>
+                                        <th>Priority</th>
+                                        <th>Tag</th>
+                                        <th>Url SEO</th>
                                         <th>Created by</th>
                                         <th>Created on</th>
                                         <th>Updated by</th>
                                         <th>Updated on</th>
-                                        <th>Deleted by</th>
-                                        <th>Deleted on</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     {
                                         res && (res.data.rows).map((row,index)=>
                                             <tr key={row.id}>
-                                                <td>{index+1}</td>
-                                                <td>
-                                                    {/*<img src={'../../assets/img/avatars/65.jpg'} className="img-avatar"/>*/}
+                                                <td align={"center"} width={"3%"} valign="middle">{index+1}</td>
+                                                <td width={"5%"} align={"center"} valign="middle">
+                                                    <img alt={""} src={'/assets/img/avatars/1.jpg'} className="img-avatar"/>
                                                 </td>
-                                                <td><a href={"#"+this.props.match.path+row.id}>{row.username}</a></td>
-                                                <td>{row.first_name}</td>
-                                                <td>{row.last_name}</td>
-                                                <td>{row.email}</td>
-                                                <td>
+                                                <td width={"5%"} valign="middle"><a href={"#/admin/master/item/"+row.id}>{row.code}</a></td>
+                                                <td width={"13%"} valign="middle">{row.name}</td>
+                                                <td width={"13%"} valign="middle">{row.title}</td>
+                                                <td width={"7%"} valign="middle">{row.category_name}</td>
+                                                <td width={"7%"}>{row.manufacturer_name}</td>
+                                                <td width={"4%"} align={"center"}>
                                                     {row.status==="AT"?<Badge color="success">Active</Badge>:<Badge color="danger">Inactive</Badge>}
 
                                                 </td>
-                                                <td>{row.role_name}</td>
-                                                <td>{row.created_by_name}</td>
-                                                <td>{row.created_at}</td>
-                                                <td>{row.updated_by_name}</td>
-                                                <td>{row.updated_at}</td>
-                                                <td>{row.deleted_by_name}</td>
-                                                <td>{row.deleted_at}</td>
+                                                <td width={"1%"}>{row.priority}</td>
+                                                <td width={"5%"}>{row.tag}</td>
+                                                <td width={"5%"}>{row.url_seo}</td>
+                                                <td width={"7%"} align={"center"}>{Helper.formatDate(row.created_at)}</td>
+                                                <td width={"7%"} align={"center"}>{row.updated_by_name}</td>
+                                                <td width={"7%"} align={"center"}>{Helper.formatDate(row.updated_at)}</td>
+                                                <td width={"7%"} align={"center"}>{row.updated_by_name}</td>
                                             </tr>
                                         )
                                     }
@@ -184,5 +176,4 @@ export class UserList extends React.Component{
             </div>
         );
     }
-
 }

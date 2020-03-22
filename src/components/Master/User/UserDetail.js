@@ -45,12 +45,12 @@ export default class UserDetail extends React.Component{
             form:form
         });
     }
-    create = ()=>{
-        UserService.create(this.state.form);
+    create = async ()=>{
+        await UserService.create(this.state.form);
         this.cancel();
     }
-    update=()=>{
-        UserService.update(this.state.id,this.state.form);
+    update=async ()=>{
+        await UserService.update(this.state.id,this.state.form);
         this.cancel();
     }
     render(){

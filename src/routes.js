@@ -1,14 +1,9 @@
 import Master from "./components/Master";
 import User from "./components/Master/User";
-import Item from "./components/Master/Item";
 import Auth from "./components/Auth";
-import Dashboard from "./components/Dashboard";
+import Dashboard  from "./components/Dashboard";
 import UserDetail from "./components/Master/User/UserDetail";
-
-// const Dashboard  = React.lazy(()=>import('./components/Dashboard/Dashboard'))
-// const Auth = React.lazy(()=>import('./components/Auth/Auth'));
-// const User = React.lazy(()=>import('./components/Admin/User/index'));
-// const Item = React.lazy(()=>import('./components/Admin/Item/index'));
+import {ItemDetail,ItemList} from "./components/Master/Item";
 
 const routes = [
 
@@ -25,6 +20,8 @@ const routes = [
     { path: '/admin/master/user/create',exact: true, name: 'Create', component: UserDetail },
     { path: '/admin/master/user/:id',name: 'Detail', component: UserDetail },
 
-    { path: '/admin/master/item', exact: true, name: 'Item', component: Item },
+    { path: '/admin/master/item', exact: true, name: 'Item', component: ItemList },
+    { path: '/admin/master/item/create',exact: true, name: 'Create', component: ItemDetail },
+    { path: '/admin/master/item/:id',name: 'Detail', component: ItemDetail },
 ]
 export default routes;

@@ -1,12 +1,5 @@
-import React, {Component} from 'react';
+import ItemDetail from "./ItemDetail";
+import ItemList from "./ItemList";
 
-class Item extends Component{
-    render() {
-        return (
-            <div>
-                Item
-            </div>
-        );
-    }
-}
-export default Item;
+export {ItemList};
+export {ItemDetail};
