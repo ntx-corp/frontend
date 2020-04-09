@@ -13,17 +13,11 @@ export default class ItemDetail extends React.Component{
             redirect: false,
             id:this.props.match.params.id,
             form:{
-                variant:[{
-                    id:"",
-                    variant_id:'',
-                    value_id:[]
-                },{
-                    id:"",
-                    variant_id:'',
-                    value_id:[]
-                }]
+                variants:[]
             },
             activeTab: new Array(4).fill('1'),
+            variantOption:[],
+            categoryOption:[]
         };
     }
     componentDidMount() {
@@ -46,10 +40,11 @@ export default class ItemDetail extends React.Component{
                 console.log(e.message);
             }
         }
-
+        ItemService.variant().then(res =>this.setState({ variantOption:res.data}));
+        ItemService.category().then(res =>this.setState({ categoryOption:res.data}));
     }
+
     backToList=()=>{
-        // this.props.history.push('/admin/master/user');
         this.setState({
             redirect: true
         })
@@ -59,6 +54,7 @@ export default class ItemDetail extends React.Component{
             return <Redirect to='/admin/master/item' />
         }
     }
+
     onChange = (e) =>{
         const form = {
             ...this.state.form
@@ -68,19 +64,84 @@ export default class ItemDetail extends React.Component{
             form:form
         });
     }
+
     create = async ()=>{
-        await ItemService.create(this.state.form);
-        this.cancel();
+        await ItemService.create(this.state.form).then(res=>this.setState({id:res.data.id}));
+        this.props.history.push("/admin/master/item/"+this.state.id);
     }
     update=async ()=>{
         await ItemService.update(this.state.id,this.state.form);
-        this.cancel();
+    }
+
+    variantChange = async(e,idx) =>{
+        const form = {
+            ...this.state.form
+        }
+        const variants = this.state.form.variants;
+        variants[idx].variant_id = e.target.value;
+        ItemService.variantValue(e.target.value).then(res=>{
+            variants[idx].valueData=res.data;
+            form.variants = variants;
+            this.setState({
+                form:form
+            });
+        });
+
+    }
+    variantCreate=(e)=>{
+        const form = {
+            ...this.state.form
+        }
+        const variants = this.state.form.variants;
+        variants.push({
+            id:"",
+            variant_id:'',
+            valueData:[],
+            values:[]
+        })
+        form.variants = variants;
+        this.setState({
+            form:form
+        });
+    }
+    variantDelete=(e,idx)=>{
+        const form = {
+            ...this.state.form
+        }
+        var variants = this.state.form.variants;
+        delete variants[idx];
+        form.variants = variants;
+        this.setState({
+            form:form
+        });
+    }
+    variantValueChange = (e,idx)=>{
+        let values = e.map(data=>{
+            return data.id
+        });
+        const form = {
+            ...this.state.form
+        }
+        const variants = this.state.form.variants;
+        variants[idx].values = values;
+        form.variants = variants;
+        this.setState({
+            form:form
+        });
     }
     render(){
-        console.log(this.state.form);
         return (
             <div className="animated fadeIn">
+                {this.renderRedirect()}
                 <Row>
+                    <Col xs="12" md="12">
+                        <Card>
+                            <CardFooter>
+                                <Button type="submit" size="sm" className="btn btn-success" onClick={this.state.id ? this.update: this.create}><i className="fa fa-plus-square"></i> {this.state.id ?"Update":"Create"}</Button>
+                                <Button type="reset" size="sm" color="danger" onClick={this.backToList}><i className="fa fa-ban"></i> Cancel</Button>
+                            </CardFooter>
+                        </Card>
+                    </Col>
                     <Col xs="12" className="mb-4">
                         <Nav tabs>
                             <NavItem>
@@ -142,10 +203,19 @@ export default class ItemDetail extends React.Component{
                         </Nav>
                         <TabContent activeTab={this.state.activeTab[0]}>
                             <TabPane tabId="1">
-                                <General form={this.state.form} onChange={this.onChange}/>
+                                <General form={this.state.form}
+                                         categoryOption = {this.state.categoryOption}
+                                         onChange={this.onChange}
+                                />
                             </TabPane>
                             <TabPane tabId="2">
-                                <Variant form={this.state.form} onChange={this.onVariantChange}/>
+                                <Variant form={this.state.form}
+                                         variantOption={this.state.variantOption}
+                                         variantChange={this.variantChange}
+                                         variantCreate={this.variantCreate}
+                                         variantDelete={this.variantDelete}
+                                         variantValueChange={this.variantValueChange}
+                                />
                             </TabPane>
                             <TabPane tabId="3">
                                 <Sku/>
@@ -166,57 +236,6 @@ export default class ItemDetail extends React.Component{
                     </Col>
                 </Row>
             </div>
-
-            /*<div>
-                {this.renderRedirect()}
-                <Row>
-                    <Col xs="12" md="12">
-                        <Card>
-                            <CardHeader>
-                                <strong>Info</strong>
-                            </CardHeader>
-                            <CardBody>
-                                <Form action="" method="post" encType="multipart/form-data" className="form-horizontal">
-                                    <FormGroup row>
-                                        <Col md="6">
-                                            <Row>
-                                                <Col md="3">
-                                                    <Label htmlFor="text-input">Code</Label>
-                                                </Col>
-                                                <Col xs="12" md="9">
-                                                    <Input type="text" name="code" placeholder="Item code"  onChange={this.onChange} value={this.state.form.code || ''}/>
-                                                </Col>
-                                            </Row>
-                                            <Row>
-                                                <Col md="3">
-                                                    <Label htmlFor="text-input">Name</Label>
-                                                </Col>
-                                                <Col xs="12" md="9">
-                                                    <Input type="text" name="name" placeholder="Item Name"  onChange={this.onChange} value={this.state.form.name || ''}/>
-                                                </Col>
-                                            </Row>
-                                        </Col>
-                                        <Col md="6">
-                                            <Row>
-                                                <Col md="3">
-                                                    <Label htmlFor="text-input">Category</Label>
-                                                </Col>
-                                                <Col xs="12" md="9">
-                                                    <Input type="text" name="category_id" placeholder="Category" onChange={this.onChange} value={this.state.form.category_id || ''}/>
-                                                </Col>
-                                            </Row>
-                                        </Col>
-                                    </FormGroup>
-                                </Form>
-                            </CardBody>
-                            <CardFooter>
-                                <Button type="submit" size="sm" className="btn btn-success" onClick={this.state.id ? this.update: this.create}><i className="fa fa-plus-square"></i> {this.state.id ?"Update":"Create"}</Button>
-                                <Button type="reset" size="sm" color="danger" onClick={this.backToList}><i className="fa fa-ban"></i> Cancel</Button>
-                            </CardFooter>
-                        </Card>
-                    </Col>
-                </Row>
-            </div>*/
         );
     }
 }

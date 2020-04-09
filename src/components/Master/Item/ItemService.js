@@ -12,5 +12,14 @@ export const ItemService = {
     },
     update:function(id,params){
         return ApiService.put('/item/'+id,params);
+    },
+    variant:function(){
+        return ApiService.get('/variant/option');
+    },
+    variantValue:function(variantId){
+        return ApiService.get('/variant/'+variantId+"/value");
+    },
+    category:function(){
+        return ApiService.get('/category/option');
     }
 }

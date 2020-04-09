@@ -1,23 +1,17 @@
 import React from "react";
 import {Col, Input, Label, Row} from "reactstrap";
-import {DropDown} from "../../../../helpers/Control";
-const General =({form, onChange})=>{
-    // console.log(form)
-    // constructor(props){
-    //     super(props);
-    //     this.state = {
-    //
-    //     }
-    // }
-    const options = [
-        {code:1,name:"Code 1"},
-        {code:2,name:"Code 2"},
-        {code:3,name:"Code 3"},
-        {code:4,name:"Code 4"},
-        {code:5,name:"Code 5"}
-    ];
+const General =({form, onChange,categoryOption})=>{
+    const options=[];
     return (
         <div>
+            <Row>
+                <Col md="3">
+                    <Label htmlFor="text-input">File</Label>
+                </Col>
+                <Col xs="12" md="9">
+                    <Input type="file" name="file" onChange={onChange} value={form.url || ''}/>
+                </Col>
+            </Row>
             <Row>
                 <Col md="3">
                     <Label htmlFor="text-input">Name</Label>
@@ -52,7 +46,7 @@ const General =({form, onChange})=>{
                 <Col xs="12" md="9">
                     <Input type="select" name="manufacturer_id" bsSize="sm" onChange={onChange}>
                         {options.map((row,idx)=>
-                            <option key={idx} value={row.code}>{row.name}</option>
+                            <option key={idx} value={row.id}>{row.name}</option>
                         )}
                     </Input>
                 </Col>
@@ -62,9 +56,9 @@ const General =({form, onChange})=>{
                     <Label htmlFor="selectSm">Category</Label>
                 </Col>
                 <Col xs="12" md="9">
-                    <Input type="select" name="category" bsSize="sm" onChange={onChange}>
-                        {options.map((row,idx)=>
-                            <option key={idx} value={row.code}>{row.name}</option>
+                    <Input type="select" name="category_id" bsSize="sm" onChange={onChange}>
+                        {categoryOption.map((row,idx)=>
+                            <option key={idx} value={row.id}>{row.name}</option>
                         )}
                     </Input>
                 </Col>

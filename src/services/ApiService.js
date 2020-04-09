@@ -13,9 +13,14 @@ export const ApiService = {
         };
     },
     option:function(method,params,header){
+        let hdr = (!header)?this.header():header;
+        hdr = {
+            ...hdr,
+            'Authorization': 'Bearer ' + auth.getToken()
+        }
         return {
             method:method,
-            headers:(!header)?this.header():header,
+            headers:hdr,
             body:JSON.stringify(params)
         }
     },

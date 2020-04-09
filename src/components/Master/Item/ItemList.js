@@ -137,7 +137,7 @@ export default class ItemList extends React.Component{
                                                     <img alt={""} src={'/assets/img/avatars/1.jpg'} className="img-avatar"/>
                                                 </td>
                                                 <td width={"5%"} valign="middle"><a href={"#/admin/master/item/"+row.id}>{row.code}</a></td>
-                                                <td width={"13%"} valign="middle">{row.name}</td>
+                                                <td width={"13%"} valign="middle"><a href={"#/admin/master/item/"+row.id}>{row.name}</a></td>
                                                 <td width={"13%"} valign="middle">{row.title}</td>
                                                 <td width={"7%"} valign="middle">{row.category_name}</td>
                                                 <td width={"7%"}>{row.manufacturer_name}</td>
