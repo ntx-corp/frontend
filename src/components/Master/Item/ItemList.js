@@ -134,7 +134,10 @@ export default class ItemList extends React.Component{
                                             <tr key={row.id}>
                                                 <td align={"center"} width={"3%"} valign="middle">{index+1}</td>
                                                 <td width={"5%"} align={"center"} valign="middle">
-                                                    <img alt={""} src={'/assets/img/avatars/1.jpg'} className="img-avatar"/>
+                                                    <img style={{
+                                                        width: 50,
+                                                        height:50
+                                                    }} id="imageView" src={row.image?("https://drive.google.com/uc?export=view&id="+row.image):'/assets/img/no_image.jpg'}/>
                                                 </td>
                                                 <td width={"5%"} valign="middle"><a href={"#/admin/master/item/"+row.id}>{row.code}</a></td>
                                                 <td width={"13%"} valign="middle"><a href={"#/admin/master/item/"+row.id}>{row.name}</a></td>
@@ -142,8 +145,7 @@ export default class ItemList extends React.Component{
                                                 <td width={"7%"} valign="middle">{row.category_name}</td>
                                                 <td width={"7%"}>{row.manufacturer_name}</td>
                                                 <td width={"4%"} align={"center"}>
-                                                    {row.status==="AT"?<Badge color="success">Active</Badge>:<Badge color="danger">Inactive</Badge>}
-
+                                                    {row.ac===1?<Badge color="success">Active</Badge>:<Badge color="danger">Inactive</Badge>}
                                                 </td>
                                                 <td width={"1%"}>{row.priority}</td>
                                                 <td width={"5%"}>{row.tag}</td>

@@ -150,8 +150,7 @@ export class UserList extends React.Component{
                                                 <td>{row.last_name}</td>
                                                 <td>{row.email}</td>
                                                 <td>
-                                                    {row.status==="AT"?<Badge color="success">Active</Badge>:<Badge color="danger">Inactive</Badge>}
-
+                                                    {row.ac===1?<Badge color="success">Active</Badge>:<Badge color="danger">Inactive</Badge>}
                                                 </td>
                                                 <td>{row.role_name}</td>
                                                 <td>{row.created_by_name}</td>

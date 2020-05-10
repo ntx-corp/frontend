@@ -1,0 +1,31 @@
+#frm_uploadFile{
+  width: 360px;
+  height: 300px;
+  position: relative;
+  overflow: hidden;
+  background-color: #ffffff;
+  color: #ecf0f1;
+  padding-right: 10px;
+  img{
+    width:100%;
+    height:100%;
+  }
+  label{
+    position: absolute;
+    z-index: 5;
+    opacity: 0.8;
+    cursor: pointer;
+    background-color: #bdc3c7;
+    width: 100px;
+    height: 25px;
+    font-size: 10px;
+    line-height: 25px;
+    text-transform: uppercase;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto !important;
+    text-align: center;
+  }
+}

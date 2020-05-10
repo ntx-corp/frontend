@@ -25,7 +25,7 @@ const Variant = ({form, variantOption, variantChange,variantDelete,variantCreate
                         return (
                             <tr key={idx}>
                                 <td width={"20%"} align={"center"} valign="middle">
-                                    <Input type="select" name="category" bsSize="sm" onChange={e=>variantChange(e,idx)}>
+                                    <Input type="select" name="category" bsSize="sm" onChange={e=>variantChange(e,idx)} value={row.variant_id || ''}>
                                         {variantOption.map((variant,idx)=>
                                             <option key={idx} value={variant.id}>{variant.name}</option>
                                         )}
@@ -56,7 +56,6 @@ const Variant = ({form, variantOption, variantChange,variantDelete,variantCreate
                     </tr>
                 </tbody>
             </Table>
-
         </Row>
     )
 }

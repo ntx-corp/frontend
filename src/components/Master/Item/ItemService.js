@@ -5,13 +5,13 @@ export const ItemService = {
         return ApiService.get('/item',params);
     },
     create:function(params){
-        return ApiService.post('/item',params);
+        return ApiService.postForm('/item',params);
+    },
+    update:function(id,params){
+        return ApiService.postForm('/item/'+id,params);
     },
     detail:function(id){
         return ApiService.get('/item/'+id);
-    },
-    update:function(id,params){
-        return ApiService.put('/item/'+id,params);
     },
     variant:function(){
         return ApiService.get('/variant/option');

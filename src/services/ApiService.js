@@ -1,6 +1,7 @@
 import config from '../utils/config';
 import {AuthService as auth} from "./AuthService";
 import {handleResponse} from "../helpers";
+import axios from 'axios';
 
 export const ApiService = {
     token:function(){
@@ -24,79 +25,6 @@ export const ApiService = {
             body:JSON.stringify(params)
         }
     },
-    /*get2:function(url, params,header){
-        return new Promise((resolve, reject) => {
-            //get token from local storage if there is one
-            const jwttoken = localStorage.getItem('jwttoken');
-            const bearer = 'Bearer ' + jwttoken;
-            const data = new FormData();
-            // get the website backend main url from .env
-            const REACT_APP_URL = process.env.REACT_APP_URL
-            fetch(config.apiUrl+url, this.option("GET",params,header)).then(
-                (response) => {
-                    response.json()
-                        .then((res) => {
-                            if (response.status === 200) {
-                                resolve(true);
-                                return res;
-                            }
-                            if (response.status === 401) {
-                                localStorage.removeItem('jwttoken');
-                                resolve(false)
-                            }
-                        })
-                }
-            ).catch((err) => {
-                // reject(err)
-            });
-        })
-    },
-    get3:function(url, params,header){
-        return new Promise((resolve, reject) => {
-            fetch(config.apiUrl+url, this.option("GET",params,header)).then(
-                (response) => {
-                    if (response.ok) {
-                        const contentType = response.headers.get('Content-Type') || '';
-
-                        if (contentType.includes('application/json')) {
-                            return response.json().catch(error => {
-                                return Promise.reject(error.message);
-                            });
-                        }
-
-                        if (contentType.includes('text/html')) {
-                            return response.text().then(html => {
-                                return {
-                                    page_type: 'generic',
-                                    html: html
-                                };
-                            }).catch(error => {
-                                return Promise.reject(error.message);
-                            })
-                        }
-
-                        return Promise.reject('Invalid content type: ' + contentType);
-                    }
-
-                    if (response.status == 404) {
-                        return Promise.reject('Page not found: ' + url);
-                    }
-
-                    return Promise.reject('HTTP error: ' + response.status);
-                }
-            ).catch((err) => {
-                return Promise.reject(err.message);
-            });
-        })
-    },
-    get4:function(url, params,header){
-        return fetch(config.apiUrl+url,this.option("GET",params,header))
-            .then(respone=>respone.json())
-            .then(res => {
-                return JSON.stringify(res);
-            });
-        // console.log(jsonData)
-    },*/
     get:function(url, params,header){
         const queryString = this.objToQueryString(params);
         return fetch(config.apiUrl+url+"?"+queryString,this.option("GET",header))
@@ -109,6 +37,55 @@ export const ApiService = {
     post:function (url,params,header) {
         return fetch(config.apiUrl+url,this.option("POST",params,header))
             .then(respone=>respone.json());
+    },
+    postForm:function(url,params,header){
+        const data = new FormData();
+        for(const name in params){
+            if(name != "file"){
+                var value = params[name];
+                if(Array.isArray(params[name])){
+                    value = JSON.stringify(params[name]);
+                }else if(value===null){
+                    value = "";
+                }
+                data.append(name,value)
+            }
+            else{
+                data.append(name,params[name])
+            }
+        }
+        // const formData={
+        //     method:"POST",
+        //     mode: 'cors',
+        //     headers:{
+        //         'Content-Type': 'multipart/form-data; charset=utf-8;',
+        //         'Authorization': 'Bearer ' + auth.getToken()
+        //     },
+        //     body:data
+        // }
+        // return fetch(config.apiUrl+url,formData)
+        //     .then(respone=>respone.json());
+
+        const option = {
+            method: 'POST',
+            url: url,
+            baseURL:config.apiUrl,
+            headers: {
+                'Content-Type': 'multipart/form-data; charset=utf-8;',
+                'Authorization': 'Bearer ' + auth.getToken()
+                // 'Accept': 'application/json',
+                // 'Content-Type': 'application/json;charset=UTF-8'
+            },
+            data: data
+        }
+        let response = axios(option);
+        let responseOK = response && response.status === 200 && response.statusText === 'OK';
+        if (responseOK) {
+            let data = response.data;
+            return data;
+            // do something with data
+        }
+        return null;
     },
     delete:function (url,params='',header='') {
         return fetch(config.apiUrl+url,this.option("DELETE",params,header))
